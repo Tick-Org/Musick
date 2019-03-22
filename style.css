@@ -1,0 +1,45 @@
+*{
+    color: #f3f9fb;
+    font-family: 'Viga', sans-serif;
+}
+html,body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+    background-image: linear-gradient( 135deg, #1f3c88 10%, #774181 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    cursor: context-menu;
+}
+#parent{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#parent-r{
+    width:100%;
+    height: 100%;
+    height: inherit;
+    margin-left: 20%;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+}
+#search{
+    position: fixed;
+    top:0;
+    font-size: 5em;
+    
+    
+    right: 5px;
+}
+#music-head{
+    background-color:#233142;
+
+}
