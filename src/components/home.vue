@@ -40,6 +40,7 @@ export default {
         
         return{songs:allSongs,pictures:pictures}
     },
+    
     methods:{
         playmusic(path,title,artist,art){
             

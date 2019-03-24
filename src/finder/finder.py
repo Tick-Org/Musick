@@ -45,7 +45,7 @@ def art(songName):
     except:
         listPath = base64.b64decode(songName).decode('latin-1')        
     try:
-        os.mkdir(os.getcwd()+"art")
+        os.mkdir(os.getcwd()+"/art")
     except FileExistsError:
         pass
     os.system("ffmpeg -i \""+listPath+"\" art/"+songName+".jpg -y")

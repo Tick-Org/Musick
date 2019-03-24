@@ -4,9 +4,9 @@
         
         <div id="parent-r">
             <searchComp v-model="SQuery"></searchComp>
-            <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;">Home</h2></div>
+            <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;" v-show="home">Home</h2></div>
             <search v-show="searchCom"></search>
-            
+
             <song :SQuery="SQuery"></song>
             <player ></player>    
         </div>
@@ -42,6 +42,35 @@ export default {
         });
         EventBus.$on("search-o",()=>{
             this.searchCom= true
+        });
+        EventBus.$on("Home",()=>{
+            this.home= true
+            this.playlist = false
+            this.artist = false
+            this.album = false
+            this.genres = false
+        });
+        EventBus.$on("Playlist",()=>{
+            this.home= false
+            this.playlist = true
+            this.artist = false
+            this.album = false
+            this.genres = false
+        });
+        EventBus.$on("Artist",()=>{
+            this.home= false
+            this.playlist = false
+            this.artist = true
+            this.album = false
+            this.genres = false
+        });
+        EventBus.$on("Genre",()=>{
+            console.log("Genre")
+            this.home= false
+            this.playlist = false
+            this.artist = false
+            this.album = false
+            this.genres = true
         });
     }
     

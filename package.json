@@ -12,11 +12,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "fs": "0.0.1-security",
+    "howler": "^2.1.1",
     "jsmediatags": "^3.8.1",
     "mutag": "^2.0.5",
     "vue": "^2.5.11",
     "vue-axios": "^2.1.4",
-    "vue-range-slider": "^0.6.0"
+    "vue-range-slider": "^0.6.0",
+    "vue-slider-component": "^3.0.16"
   },
   "browserslist": [
     "> 1%",

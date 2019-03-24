@@ -1,6 +1,15 @@
 <template>
     <div id="player">
-        <div id="player-p"></div>
+        
+             <range-slider
+             @change="changePlayHead"
+    class="slider"
+    min="0"
+    max="100"
+    step="0.1"
+    v-model="sliderValue">
+  </range-slider>
+        
         <div id="content-play">
             <img id="alb" :src="art"/>
             <div id="name">
@@ -16,9 +25,15 @@
 </template>
 <script>
 import { EventBus } from "../event-bus.js";
+
+import RangeSlider from 'vue-range-slider'
+
 export default {
     name:"player",
     
+  components: {
+    RangeSlider
+  },
     data(){
         return {
             songName:""   ,
@@ -27,8 +42,8 @@ export default {
             audio:new Audio(),
             sliderValue: 0,
             art:"",
-            
-            
+            playing:false,
+            sliderValue:0
         }
     },
     created() {
@@ -39,24 +54,35 @@ export default {
             this.art = stuff[3]
             if(this.play){this.audio.pause()}
             this.play = true
-            document.getElementById("player-p").style.width="0%"
+            this.sliderValue=0
             this.audio = new Audio("http://127.0.0.1:5000/play/"+window.btoa(stuff[2]));
+            
             this.playFunc()
         });
   },
   methods:{
+        changePlayHead(value){
+            this.pause()
+            this.audio.currentTime = (value*this.audio.duration)/100
+            console.log(value*this.audio.duration)
+            this.playFunc()
+        },
         playFunc(){
+            this.playing = true
             this.audio.play()
             this.play=true
-            
-            //wait for it to load
-            setTimeout(() => {
-                $("#player-p").animate({width: "65em"},(this.audio.duration*1000));
+            var vm = this
+            function set(percentage){if(vm.playing){vm.sliderValue+=percentage}}
+            this.audio.addEventListener("loadeddata", function() {
+                var percentage = 1/(this.duration*10)
                 
-            }, 500);
+                setInterval(()=>set(percentage),1)
+            });
             
         },
+        
         pause(){
+            this.playing = false
             this.audio.pause()
             $("#player-p").stop()
             this.play=false;
@@ -69,11 +95,12 @@ export default {
 #player{
     background-color: #212121;
     width: 100%;
-    height: 10%;
+    
     bottom:0px;
     position: fixed;
     padding-bottom: 1em;
-    
+    padding:0;
+ 
 }
 #name{
     width:50em
@@ -86,9 +113,11 @@ export default {
     font-size: 1.7em;
     margin-left:10%;
 }
-#player-p{
+.slider{
     height:5%;
-    background-color: aliceblue;
+    width:65em;
+    margin:0;
+    
 }
 #alb{
     height:3%;
