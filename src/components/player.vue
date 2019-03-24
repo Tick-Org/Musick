@@ -93,7 +93,7 @@ export default {
 </script>
 <style>
 #player{
-    background-color: #212121;
+    background-color: rgb(33, 33, 33,0.8);
     width: 100%;
     
     bottom:0px;

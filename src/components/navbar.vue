@@ -5,6 +5,7 @@
             <div @click="emitPls('Playlist')">Your Playlist</div>
             <div @click="emitPls('Artist')">Your Artists</div>
             <div @click="emitPls('Genre')">Your Genres</div>
+            <div @click="emitPls('Download')">Download</div>
     </div>
         
 </template>

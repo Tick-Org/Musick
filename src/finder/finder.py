@@ -11,13 +11,14 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 #http://127.0.0.1:5000/songList
 #http://127.0.0.1:5000/play/
-music_dir = list(filter(lambda x:x[-3:]=="mp3",os.listdir("/home/"+getpass.getuser()+"/Music")))
-down_dir = list(filter(lambda x: x[-3:]=="mp3",os.listdir("/home/"+getpass.getuser()+"/Downloads")))
-all_dir=music_dir+down_dir
-
 @app.route("/songlist")
 @cross_origin()
 def songList():
+
+    music_dir = list(filter(lambda x:x[-3:]=="mp3",os.listdir("/home/"+getpass.getuser()+"/Music")))
+    down_dir = list(filter(lambda x: x[-3:]=="mp3",os.listdir("/home/"+getpass.getuser()+"/Downloads")))
+    all_dir=music_dir+down_dir
+    
     tags=[]
     for song in all_dir:
         dicts={}
@@ -48,7 +49,7 @@ def art(songName):
         os.mkdir(os.getcwd()+"/art")
     except FileExistsError:
         pass
-    os.system("ffmpeg -i \""+listPath+"\" art/"+songName+".jpg -y")
+    os.system("ffmpeg -i \""+listPath+"\" art/"+songName+".jpg -n")
     return send_file(os.getcwd()+"/art/"+songName+".jpg", mimetype='image/jpg')
 @app.route("/play/<songName>")
 @cross_origin()
@@ -59,3 +60,11 @@ def song(songName):
     except:
         listPath = base64.b64decode(songName).decode('latin-1')
     return  send_file(listPath, mimetype='audio/mp3')
+@app.route("/download/<songName>")
+@cross_origin()
+def download(songName):
+    songLink =  base64.b64decode(songName).decode('utf-8')
+    os.system("spotdl --song "+songLink)
+    dicts={"status":"success"}
+    
+    return jsonify(dicts)

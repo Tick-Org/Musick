@@ -4,10 +4,11 @@
         
         <div id="parent-r">
             <searchComp v-model="SQuery"></searchComp>
-            <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;" v-show="home">Home</h2></div>
-            <search v-show="searchCom"></search>
+            <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;">{{Screen}}</h2></div>
+            <search v-show="searchCom && !download"></search>
 
-            <song :SQuery="SQuery"></song>
+            <song :SQuery="SQuery" v-show="!download"></song>
+            <download v-show="download"></download>
             <player ></player>    
         </div>
         
@@ -17,22 +18,25 @@
 <script>
 import navbar from "./navbar";
 import player from "./player"
+import download from "./download"
 import search from "./search"
 import song from "./home"
 import { EventBus } from "../event-bus.js";
 import searchComp  from "./searchSongComponent";
 export default {
     name:'musicContainer',
-    components: {navbar,player,search,song,searchComp},
+    components: {navbar,player,search,song,searchComp,download},
     data(){
         return{
             searchCom:true,
             SQuery:"",
+            Screen:"Home",
             home:true,
             playlist:false,
             artist:false,
             genres:false,
-            albums:false
+            albums:false,
+            download:false,
         }
     },
     created(){
@@ -44,33 +48,50 @@ export default {
             this.searchCom= true
         });
         EventBus.$on("Home",()=>{
+            this.Screen = "Home"
             this.home= true
             this.playlist = false
+            this.searchCom= true
             this.artist = false
             this.album = false
             this.genres = false
+            this.download = false
         });
         EventBus.$on("Playlist",()=>{
+            this.Screen = "Playlist"
             this.home= false
             this.playlist = true
             this.artist = false
             this.album = false
             this.genres = false
+            this.download = false
         });
         EventBus.$on("Artist",()=>{
+            this.Screen = "Artist"
             this.home= false
             this.playlist = false
             this.artist = true
+            this.download = false
             this.album = false
             this.genres = false
         });
         EventBus.$on("Genre",()=>{
-            console.log("Genre")
+            this.Screen = "Genre"
             this.home= false
             this.playlist = false
             this.artist = false
             this.album = false
             this.genres = true
+            this.download = false
+        });
+        EventBus.$on("Download",()=>{
+            this.Screen = "Download"
+            this.home= false
+            this.playlist = false
+            this.artist = false
+            this.album = false
+            this.genres = false
+            this.download = true
         });
     }
     
