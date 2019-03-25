@@ -1,7 +1,7 @@
 
 <template>
 
-    <input id="search-p" placeholder="Searches go here"  @change=pull @input="$emit('input', $event.target.value)" @focus="change" />
+    <input id="search-p" placeholder="Searches go here"  @change="pull" @input="$emit('input', $event.target.value)" @focus="change" />
     
 </template>
 <script>

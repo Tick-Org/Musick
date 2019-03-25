@@ -1,1 +1,0 @@
-npm run dev && export FLASK_APP=src/finder/main.py && python3 -m flask run

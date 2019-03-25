@@ -72,11 +72,11 @@ export default {
             this.audio.play()
             this.play=true
             var vm = this
-            function set(percentage){if(vm.playing){vm.sliderValue+=percentage}}
+            function set(percentage){if(vm.playing){vm.sliderValue+=(percentage);console.log(vm.sliderValue)}}
             this.audio.addEventListener("loadeddata", function() {
-                var percentage = 1/(this.duration*10)
+                var percentage = 100/(this.duration)
                 
-                setInterval(()=>set(percentage),1)
+                setInterval(()=>set(percentage),1000)
             });
             
         },
