@@ -6,7 +6,7 @@
     class="slider"
     min="0"
     max="100"
-    step="0.1"
+    step="0.001"
     v-model="sliderValue">
   </range-slider>
         
@@ -41,6 +41,7 @@ export default {
             play:false,
             audio:new Audio(),
             sliderValue: 0,
+            duration:0,
             art:"",
             playing:false,
             sliderValue:0
@@ -55,8 +56,12 @@ export default {
             if(this.play){this.audio.pause()}
             this.play = true
             this.sliderValue=0
+            this.audio = null
+            var vm = this
             this.audio = new Audio("http://127.0.0.1:5000/play/"+window.btoa(stuff[2]));
-            
+            this.audio.addEventListener("loadeddata", function() {
+                vm.duration = this.duration
+            });
             this.playFunc()
         });
   },
@@ -69,16 +74,14 @@ export default {
         },
         playFunc(){
             this.playing = true
-            this.audio.play()
+            this.audio.pause()
             this.play=true
             var vm = this
-            function set(percentage){if(vm.playing){vm.sliderValue+=(percentage);console.log(vm.sliderValue)}}
-            this.audio.addEventListener("loadeddata", function() {
-                var percentage = 100/(this.duration)
-                
-                setInterval(()=>set(percentage),1000)
-            });
-            
+            var duration = 0
+            this.audio.ontimeupdate=function(){
+                vm.sliderValue = (vm.audio.currentTime / vm.audio.duration ) * 100
+            }
+            this.audio.play()
         },
         
         pause(){
