@@ -15,7 +15,7 @@ export default {
     methods:{
         download(){
             
-            $.getJSON('http://127.0.0.1:5000/download/'+window.btoa(this.link), function(data) {
+            $.getJSON('http://127.0.0.1:5000/download/'+window.btoa(this.link).replace("/","***"), function(data) {
                 console.log(data)
             });
         }
@@ -30,8 +30,9 @@ export default {
 #down{
     width:80%;
     background: none;
-    border-width: 1px;
-    border-bottom: solid 1px;
+    padding:10px;
+    border-radius: 40px;
+    border:solid 1px;
 }
 button{
     
@@ -39,6 +40,6 @@ button{
     border:none;
     padding:5px;
     margin:5px;
-    border-radius: 2%;
+    border-radius: 4%;
 }
 </style>

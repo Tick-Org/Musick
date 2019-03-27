@@ -63,7 +63,7 @@ def song(songName):
 @app.route("/download/<songName>")
 @cross_origin()
 def download(songName):
-    songLink =  base64.b64decode(songName).decode('utf-8')
+    songLink =  base64.b64decode(songName.replace("***","/")).decode('utf-8')
     os.system("spotdl --song "+songLink)
     dicts={"status":"success"}
     

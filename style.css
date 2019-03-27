@@ -14,8 +14,9 @@ html,body{
     width: 100%;
     margin: 0;
     padding: 0;
-    cursor: context-menu;
+    cursor: initial;
 }
+
 #parent{
     display: flex;
     width: 100%;
@@ -92,13 +93,13 @@ html,body{
     height: inherit;
     margin-left: 20%;
     display: flex;
-    overflow-y: scroll;
+    overflow-y:scroll;
     flex-direction: column;
 }
 #search{
     position: fixed;
     top:0;
-    font-size: 5em;
+    font-size: 2em;
     
     
     right: 5px;

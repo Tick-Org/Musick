@@ -20,7 +20,7 @@ export default {
 #search{
     position: fixed;
     top:0;
-    font-size: 5em;
+    font-size: 3em;
     color: #f3f9fb;
     
     right: 5px;

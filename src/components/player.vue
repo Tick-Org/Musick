@@ -15,10 +15,16 @@
             <div id="name">
             <p id="songNameT">{{songName}}</p>
             
-            <p style="font-size:70%">{{artist}}</p>
+            <p style="font-size:80%">{{artist}}</p>
             </div>
-            <div class="media" @click="playFunc" v-show="!play"><p><i class="fa fa-play-circle"></i></p></div>
-            <div class="media" @click="pause" v-show="play"><p><i class="fa fa-pause-circle"></i></p></div>
+            <div class="mediaa">
+                <div class="mp"><i class="fa fa-backward"></i></div>
+                
+                <div class="media" @click="playFunc" v-show="!play"><i class="fa fa-play-circle"></i></div>
+                <div class="media" @click="pause" v-show="play"><i class="fa fa-pause-circle"></i></div>
+
+                <div class="mp"><i class="fa fa-forward"></i></div>
+            </div>
             
         </div>
     </div>
@@ -105,16 +111,19 @@ export default {
     padding:0;
  
 }
+.mediaa{
+    font-size: 1.7em;
+    display:flex;
+}
+.mediaa div{
+    padding:5px;
+}
 #name{
     width:50em
 }
 #content-play{
     width: 100%;
     display: flex;
-}
-.media{
-    font-size: 1.7em;
-    margin-left:10%;
 }
 .slider{
     height:5%;

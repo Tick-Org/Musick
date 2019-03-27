@@ -50,6 +50,7 @@ export default {
         EventBus.$on("Home",()=>{
             this.Screen = "Home"
             this.home= true
+            this.SQuery=""
             this.playlist = false
             this.searchCom= true
             this.artist = false
@@ -74,15 +75,6 @@ export default {
             this.download = false
             this.album = false
             this.genres = false
-        });
-        EventBus.$on("Genre",()=>{
-            this.Screen = "Genre"
-            this.home= false
-            this.playlist = false
-            this.artist = false
-            this.album = false
-            this.genres = true
-            this.download = false
         });
         EventBus.$on("Download",()=>{
             this.Screen = "Download"
