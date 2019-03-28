@@ -34,6 +34,7 @@ export default {
     border: none;
     font-size:5em;
     height:25%;
+    z-index:99;
     background-color:#233142;
     width: 80%;
     padding:5px;

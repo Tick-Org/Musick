@@ -9,6 +9,7 @@ export default {
     methods:{
         pull(){
             console.log("pull")
+            
             document.getElementById("search-p").style.top="0"
         }
     },

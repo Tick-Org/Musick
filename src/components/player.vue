@@ -50,24 +50,30 @@ export default {
             duration:0,
             art:"",
             playing:false,
+            
             sliderValue:0
         }
     },
     created() {
         EventBus.$on("play", stuff => {
-            this.songName = stuff[0]
+            
+            this.songName = stuff[1]
             this.pause()
-            this.artist = stuff[1]
-            this.art = stuff[3]
+            this.artist = stuff[2]
+            this.art = stuff[4]
             if(this.play){this.audio.pause()}
             this.play = true
             this.sliderValue=0
             this.audio = null
             var vm = this
-            this.audio = new Audio("http://127.0.0.1:5000/play/"+window.btoa(stuff[2]));
+            this.audio = new Audio("http://127.0.0.1:5000/play/"+window.btoa(stuff[3]));
             this.audio.addEventListener("loadeddata", function() {
                 vm.duration = this.duration
             });
+           
+            
+
+            
             this.playFunc()
         });
   },

@@ -6,8 +6,8 @@
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div id="song">
-                    <div @click="playmusic(song.path,song.title,song.artist,pictures[index])">
-                        <div id="overlay"></div>
+                    <div style="position:relative" @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
+                       
                         <img id="art" :src="pictures[index]"/>
                         <p id="songName"  >{{song.title}}</p>
                         <p id="artistName">{{song.artist}}</p>
@@ -43,9 +43,9 @@ export default {
     },
     
     methods:{
-        playmusic(path,title,artist,art){
+        playmusic(index,path,title,artist,art){
             
-            EventBus.$emit("play",[title,artist,path,art])
+            EventBus.$emit("play",[index ,title,artist,path,art])
         }
     }
 }
@@ -53,8 +53,11 @@ export default {
 <style>
 #songName{
     font-size:90%;
-    text-overflow:hidden;
-    
+    width: inherit;
+    height:20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
     font-weight: bold;
 }
 #artistName{
@@ -67,6 +70,7 @@ export default {
     margin:15px;
     padding-bottom: 10%;
 }
+
 #song{
     
     width:15em;
@@ -75,18 +79,7 @@ export default {
     transition: all .2s ease-in-out;
     margin:5px;
 }
-#overlay{
-    
-    width:12em;
-    z-index: -1;
 
-    border-radius: 15px;
-    height: 12em;
-    opacity:0.5;
-    position: absolute;
-    background-color: black;
-    
-}
 #song:hover{
     transform: scale(1.05);
 }
