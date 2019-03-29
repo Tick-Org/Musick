@@ -5,12 +5,13 @@ import os
 from flask import jsonify,send_file
 import getpass
 import eyed3
+import subprocess as s
 
 from flask_cors import CORS, cross_origin
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-#http://127.0.0.1:5000/songList
-#http://127.0.0.1:5000/play/
+
+
 @app.route("/songlist")
 @cross_origin()
 def songList():
@@ -50,7 +51,13 @@ def art(songName):
     except FileExistsError:
         pass
     os.system("ffmpeg -i \""+listPath+"\" art/"+songName+".jpg -n")
-    return send_file(os.getcwd()+"/art/"+songName+".jpg", mimetype='image/jpg')
+    try:
+         open(os.getcwd()+"/art/"+songName+".jpg", 'r')
+         return send_file(os.getcwd()+"/art/"+songName+".jpg", mimetype='image/jpg')
+    except FileNotFoundError:
+        return send_file(os.getcwd()+"/art/notfound.png", mimetype='image/png')
+    
+    
 @app.route("/play/<songName>")
 @cross_origin()
 def song(songName):
@@ -59,7 +66,30 @@ def song(songName):
         listPath = base64.b64decode(songName).decode('utf-8')
     except:
         listPath = base64.b64decode(songName).decode('latin-1')
+    tag = object()
+    try:
+        path = "/home/"+getpass.getuser()+"/Music/"+listPath
+        tag = eyed3.load(path)
+    except OSError :
+        path = path = "/home/"+getpass.getuser()+"/Downloads/"+listPath
+        tag = eyed3.load(path)
+    album= tag.tag.album
+    title= tag.tag.title
+    artist= tag.tag.artist
+    
+    notfound = " ".join(['notify-send',"\""+title+"\"","\""+artist+"\"","-i",os.getcwd()+"/art/notfound.png"])
+    normal = " ".join(['notify-send',"\""+title+"\"","\""+artist+"\"","-i",os.getcwd()+"/art/"+songName])
+    print(notfound)        
+    try:
+            open(os.getcwd()+"/art/"+songName+".jpg", 'r')
+            print("doing")
+            os.system(normal)
+    except FileNotFoundError:
+            print("doing")
+            os.system(notfound)
+    
     return  send_file(listPath, mimetype='audio/mp3')
+
 @app.route("/download/<songName>")
 @cross_origin()
 def download(songName):

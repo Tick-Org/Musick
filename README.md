@@ -1,18 +1,13 @@
 # musick
 
-> A simple web player ig
+> A beautiful web player
 
 ## Build Setup
 
 ``` bash
+git clone https://github.com/pythongiant/skrrt
 # install dependencies
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
+# run the app
+python3 run.py
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).

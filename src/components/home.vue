@@ -1,12 +1,13 @@
 
 <template>
-    <div id="songs">
+    <div>
+        <div v-show="square" id="songs">
         
         <template   v-for="song,index in songs">
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div id="song">
-                    <div style="position:relative" @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
+                    <div :id="index" @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
                        
                         <img id="art" :src="pictures[index]"/>
                         <p id="songName"  >{{song.title}}</p>
@@ -15,13 +16,28 @@
                 </div>
             </template>
         </template>
+        </div>
+        <div v-show="!square" id="line">
+        
+        <template   v-for="song,index in songs">
+            
+            <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
+                <div id="LineSong" >
+                    <div style="display:flex"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
+                        <div :id="index" style="width:50%;" >{{song.title}}</div><div style="font-size:80%;">{{song.artist}}</div>
+                        
+                    </div>  
+                </div>
+            </template>
+        </template>
+        </div>
     </div>
 </template>
 <script>
 import { EventBus } from "../event-bus.js";
 export default {
     name:'song',
-    props:["SQuery"],
+    props:{SQuery:{type:String,default:""},square:{type:Boolean,default:true}},
     data(){
         
         var allSongs=[];
@@ -39,12 +55,11 @@ export default {
                 });
         })
         
-        return{songs:allSongs,pictures:pictures}
+        return{songs:allSongs,pictures:pictures,index:0}
     },
     
     methods:{
         playmusic(index,path,title,artist,art){
-            
             EventBus.$emit("play",[index ,title,artist,path,art])
         }
     }
@@ -70,7 +85,21 @@ export default {
     margin:15px;
     padding-bottom: 10%;
 }
-
+#LineSong{
+    
+    width:inherit;
+    margin:10px;
+    padding:15px;
+    cursor: pointer;
+    transition:  all .2s ease-in-out;
+    border-bottom:solid 0.1px;
+}
+#LineSong:hover{
+    transform:scale(1.01)
+}
+#line{
+    padding-bottom: 10%;
+}
 #song{
     
     width:15em;
@@ -88,5 +117,9 @@ export default {
     height: 70%;
 
     border-radius: 15px;
+    transition:all .2s ease-in-out;
+}
+#art:hover{
+    border-radius: 0px;
 }
 </style>
