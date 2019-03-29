@@ -19,11 +19,11 @@
         </div>
         <div v-show="!square" id="line">
         
-        <template   v-for="song,index in songs">
+        <template   v-for="song,index in songs" >
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
-                <div id="LineSong" >
-                    <div style="display:flex"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
+                <div  id="LineSong" >
+                    <div style="display:flex;"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
                         <div :id="index" style="width:50%;" >{{song.title}}</div><div style="font-size:80%;">{{song.artist}}</div>
                         
                     </div>  
@@ -57,9 +57,9 @@ export default {
         
         return{songs:allSongs,pictures:pictures,index:0}
     },
-    
     methods:{
         playmusic(index,path,title,artist,art){
+            
             EventBus.$emit("play",[index ,title,artist,path,art])
         }
     }
