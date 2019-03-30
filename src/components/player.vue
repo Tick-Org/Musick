@@ -18,12 +18,12 @@
             <p style="font-size:80%">{{artist}}</p>
             </div>
             <div class="mediaa">
-                <div class="mp"><i class="fa fa-backward"></i></div>
+                <div class="mp" @click="EventBus.$emit('back')"><i class="fa fa-backward"></i></div>
                 
                 <div class="media" @click="playFunc" v-show="!play"><i class="fa fa-play-circle"></i></div>
                 <div class="media" @click="pause" v-show="play"><i class="fa fa-pause-circle"></i></div>
 
-                <div class="mp"><i class="fa fa-forward"></i></div>
+                <div class="mp" @click="EventBus.$emit('forward')"><i class="fa fa-forward"></i></div>
             </div>
             
         </div>
@@ -50,7 +50,7 @@ export default {
             duration:0,
             art:"",
             playing:false,
-            
+            EventBus:EventBus,
             sliderValue:0
         }
     },

@@ -57,6 +57,23 @@ export default {
         
         return{songs:allSongs,pictures:pictures,playing:false,index:-1}
     },
+    created(){
+        var vm = this
+        EventBus.$on('back',function(params) {
+                console.log(vm.index)
+            if((vm.index > 0)){
+
+                song = vm.songs[vm.index-1]
+                vm.playmusic(vm.index-1,song.path,song.title,song.artist,vm.pictures[vm.index-1])
+            }
+        })
+        EventBus.$on('forward',function(params) {
+            if((vm.index > 0)){
+                song = vm.songs[vm.index+1]
+                vm.playmusic(vm.index+1,song.path,song.title,song.artist,vm.pictures[vm.index+1])
+            }
+        })
+    },
     methods:{
         playmusic(index,path,title,artist,art){
             if(this.index != -1){
