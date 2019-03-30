@@ -55,14 +55,15 @@ export default {
                 });
         })
         
-        return{songs:allSongs,pictures:pictures,playing:false,index:0}
+        return{songs:allSongs,pictures:pictures,playing:false,index:-1}
     },
     methods:{
         playmusic(index,path,title,artist,art){
-            if(this.index != 0){
+            if(this.index != -1){
                 this.playing=false
-                document.getElementById(this.index).style.zIndex = -1
-                
+                if(document.getElementById(this.index) != null){
+                    document.getElementById(this.index).style.zIndex = -1
+                }
             }
             this.index = index
             this.playing=true
