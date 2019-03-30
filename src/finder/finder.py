@@ -21,7 +21,8 @@ def songList():
     all_dir=music_dir+down_dir
     
     tags=[]
-    for song in all_dir:
+    
+    for idx,song in enumerate(all_dir):
         dicts={}
         path = ""
         tag = object()
@@ -31,7 +32,7 @@ def songList():
         except OSError :
             path = path = "/home/"+getpass.getuser()+"/Downloads/"+song
             tag = eyed3.load(path)
-        
+        dicts["id"] = idx 
         dicts["album"] = tag.tag.album
         dicts["title"] = tag.tag.title
         dicts["artist"] = tag.tag.artist
@@ -68,17 +69,17 @@ def song(songName):
         listPath = base64.b64decode(songName).decode('latin-1')
     tag = object()
     try:
-        path = "/home/"+getpass.getuser()+"/Music/"+listPath
-        tag = eyed3.load(path)
+        
+        tag = eyed3.load(listPath)
     except OSError :
-        path = path = "/home/"+getpass.getuser()+"/Downloads/"+listPath
-        tag = eyed3.load(path)
+        
+        tag = eyed3.load(listPath)
     album= tag.tag.album
     title= tag.tag.title
     artist= tag.tag.artist
     
     notfound = " ".join(['notify-send',"\""+title+"\"","\""+artist+"\"","-i",os.getcwd()+"/art/notfound.png"])
-    normal = " ".join(['notify-send',"\""+title+"\"","\""+artist+"\"","-i",os.getcwd()+"/art/"+songName])
+    normal = " ".join(['notify-send',"\""+title+"\"","\""+artist+"\"","-i",os.getcwd()+"/art/"+songName+".jpg"])
     print(notfound)        
     try:
             open(os.getcwd()+"/art/"+songName+".jpg", 'r')

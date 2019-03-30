@@ -3,33 +3,33 @@
     <div>
         <div v-show="square" id="songs">
         
-        <template   v-for="song,index in songs">
+         <div  v-for="song,index in songs" :key="song.id"> 
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div id="song">
-                    <div :id="index" @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
-                       
+                    <div style="position:relative"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
+                       <div class="ov" :id="song.id" v-show="playing"><div><i style="font-size:2em;" class="fa fa-pause-circle"></i></div></div>
                         <img id="art" :src="pictures[index]"/>
                         <p id="songName"  >{{song.title}}</p>
                         <p id="artistName">{{song.artist}}</p>
                     </div>  
                 </div>
             </template>
-        </template>
+        </div>
         </div>
         <div v-show="!square" id="line">
         
-        <template   v-for="song,index in songs" >
+        <div   v-for="song,index in songs" :key="song.id">
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div  id="LineSong" >
                     <div style="display:flex;"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
-                        <div :id="index" style="width:50%;" >{{song.title}}</div><div style="font-size:80%;">{{song.artist}}</div>
+                        <div :id="song.id" style="width:50%;" >{{song.title}}</div><div style="font-size:80%;">{{song.artist}}</div>
                         
                     </div>  
                 </div>
             </template>
-        </template>
+        </div>
         </div>
     </div>
 </template>
@@ -55,10 +55,18 @@ export default {
                 });
         })
         
-        return{songs:allSongs,pictures:pictures,index:0}
+        return{songs:allSongs,pictures:pictures,playing:false,index:0}
     },
     methods:{
         playmusic(index,path,title,artist,art){
+            if(this.index != 0){
+                this.playing=false
+                document.getElementById(this.index).style.zIndex = -1
+                
+            }
+            this.index = index
+            this.playing=true
+            document.getElementById(index).style.zIndex = 0
             
             EventBus.$emit("play",[index ,title,artist,path,art])
         }
@@ -90,6 +98,7 @@ export default {
     width:inherit;
     margin:10px;
     padding:15px;
+    
     cursor: pointer;
     transition:  all .2s ease-in-out;
     border-bottom:solid 0.1px;
@@ -99,6 +108,23 @@ export default {
 }
 #line{
     padding-bottom: 10%;
+}
+.ov{
+
+    width:12em;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+
+    border-radius: 15px;
+    height: 12em;
+    opacity:0.8;
+    position: absolute;
+    z-index:-1;
+    background-color: black;
+
 }
 #song{
     
