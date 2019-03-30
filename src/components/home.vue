@@ -8,7 +8,7 @@
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div id="song">
                     <div style="position:relative"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
-                       <div class="ov" :id="song.id" v-show="playing"><div><i style="font-size:2em;" class="fa fa-pause-circle"></i></div></div>
+                       <div class="ov" :id="song.id" v-show="playing"><div><i class="fa fa-music"></i></div></div>
                         <img id="art" :src="pictures[index]"/>
                         <p id="songName"  >{{song.title}}</p>
                         <p id="artistName">{{song.artist}}</p>
@@ -24,7 +24,7 @@
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div  id="LineSong" >
                     <div style="display:flex;"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
-                        <div :id="song.id" style="width:50%;" >{{song.title}}</div><div style="font-size:80%;">{{song.artist}}</div>
+                        <div :id="'line'+song.id" style="width:50%;" >{{song.title}}</div><div  style="font-size:80%;width:30%;">{{song.artist}}</div>
                         
                     </div>  
                 </div>
@@ -63,12 +63,13 @@ export default {
                 this.playing=false
                 if(document.getElementById(this.index) != null){
                     document.getElementById(this.index).style.zIndex = -1
+                    document.getElementById("line"+this.index).style.color = "#eee"
                 }
             }
             this.index = index
             this.playing=true
             document.getElementById(index).style.zIndex = 0
-            
+            document.getElementById("line"+this.index).style.color = "#00faac"
             EventBus.$emit("play",[index ,title,artist,path,art])
         }
     }
