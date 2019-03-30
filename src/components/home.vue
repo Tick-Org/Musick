@@ -10,7 +10,7 @@
                     <div style="position:relative"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
                        <div class="ov" :id="song.id" v-show="playing"><div><i class="fa fa-music"></i></div></div>
                         <img id="art" :src="pictures[index]"/>
-                        <p id="songName"  >{{song.title}}</p>
+                        <p id="songName"  >{{song.id}} {{song.title}}</p>
                         <p id="artistName">{{song.artist}}</p>
                     </div>  
                 </div>
@@ -23,7 +23,7 @@
             
             <template v-if="song.title.toLowerCase().includes(SQuery.toLowerCase())||song.artist.toLowerCase().includes(SQuery.toLowerCase())">
                 <div  id="LineSong" >
-                    <div style="display:flex;"  @click="playmusic(index,song.path,song.title,song.artist,pictures[index])">
+                    <div style="display:flex;"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
                         <div :id="'line'+song.id" style="width:50%;" >{{song.title}}</div><div  style="font-size:80%;width:30%;">{{song.artist}}</div>
                         
                     </div>  
@@ -61,14 +61,18 @@ export default {
         var vm = this
         EventBus.$on('back',function(params) {
                 console.log(vm.index)
-            if((vm.index > 0)){
-
+                var song = null
+                console.log("length=>"+vm.songs.length)
+            if(vm.index > 0){
+   
                 song = vm.songs[vm.index-1]
                 vm.playmusic(vm.index-1,song.path,song.title,song.artist,vm.pictures[vm.index-1])
             }
+            
         })
         EventBus.$on('forward',function(params) {
-            if((vm.index > 0)){
+            var song = null
+            if((vm.index < vm.songs.length)){
                 song = vm.songs[vm.index+1]
                 vm.playmusic(vm.index+1,song.path,song.title,song.artist,vm.pictures[vm.index+1])
             }
