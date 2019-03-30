@@ -1,6 +1,6 @@
 # musick
-<centre><img width="20%;" height="20%;" src="src/assets/logo.png" /></center>
-<centre>A beautiful web player and a client to spotdl</centre>
+<p align="center"><img  width="20%;" height="20%;" src="src/assets/logo.png" /></p>
+<p align="center">A beautiful web player and a client to spotdl</p>
 
 ## Build Setup
 
@@ -13,6 +13,7 @@ python3 run.py
 ```
 ## Screenshots
 <img src="src/assets/ss.png"/>
+
 ## Legal
 The MIT License (MIT)
 Copyright (c) 2018 Srihari Unnikrishnan
