@@ -67,13 +67,7 @@ def song(songName):
         listPath = base64.b64decode(songName).decode('utf-8')
     except:
         listPath = base64.b64decode(songName).decode('latin-1')
-    tag = object()
-    try:
-        
-        tag = eyed3.load(listPath)
-    except OSError :
-        
-        tag = eyed3.load(listPath)
+    tag = eyed3.load(listPath)
     album= tag.tag.album
     title= tag.tag.title
     artist= tag.tag.artist
@@ -99,3 +93,41 @@ def download(songName):
     dicts={"status":"success"}
     
     return jsonify(dicts)
+@app.route("/playlist/create/<playlistName>")
+@cross_origin()
+def playlist(playlistName):
+
+    try:
+        os.mkdir(os.getcwd()+"/playlist/")
+    except FileExistsError:
+        pass
+    newPlayFile = open("playlist/"+playlistName+".txt","w+")   
+    return jsonify({"success":"true"}) 
+    
+@app.route("/playlist/addSong/<playlistName>/<songName>") 
+@cross_origin()
+def getSongName(playlistName,songName):
+    try:
+        songNameRefined = base64.b64decode(songName).decode('utf-8')
+    except:
+        songNameRefined = base64.b64decode(songName).decode('latin-1')        
+    playlist = open("playlist/"+playlistName+".txt","a+")               
+    playlist.write(songNameRefined+"\n")
+    return jsonify({"sucess":"true"})
+@app.route("/playlist/getSongs/<playlistName>")  
+@cross_origin()
+def getSongsFromPlaylist(playlistName):
+    
+    songs =[]
+    playlist = open("playlist/"+playlistName+".txt","r").read().split("\n")
+    for i in playlist:
+        songTags = {}
+        if i != "":
+            tag = eyed3.load(i)
+            songTags["artist"] = tag.tag.artist
+            songTags["album"] = tag.tag.album
+            songTags["path"] = i
+            songs.append(songTags)
+
+    return jsonify(songs)
+app.run(host='0.0.0.0',port="7000")

@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "vue": "^2.5.11",
-    "vue-range-slider": "^0.6.0"
-    
+    "vue-range-slider": "^0.6.0",
+    "vuetify": "^1.5.8"
   },
   "browserslist": [
     "> 1%",

@@ -10,7 +10,7 @@
                     <div style="position:relative"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
                        <div class="ov" :id="song.id" v-show="playing"><div><i class="fa fa-music"></i></div></div>
                         <img id="art" :src="pictures[index]"/>
-                        <p id="songName"  >{{song.id}} {{song.title}}</p>
+                        <p id="songName"  >{{song.title}}</p>
                         <p id="artistName">{{song.artist}}</p>
                     </div>  
                 </div>

@@ -15,7 +15,7 @@ export default {
     methods:{
         download(){
             
-            $.getJSON('http://127.0.0.1:5000/download/'+window.btoa(this.link).replace("/","***"), function(data) {
+            $.getJSON('http://0.0.0.0:5000/download/'+window.btoa(this.link).replace("/","***"), function(data) {
                 console.log(data)
             });
         }

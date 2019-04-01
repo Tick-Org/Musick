@@ -40,7 +40,7 @@ export default {
     font-size: 110%;
 }
 .fa{
-    width:10%;
+    
     padding:5px;
     font-size:1.5em;
 }

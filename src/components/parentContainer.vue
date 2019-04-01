@@ -7,7 +7,8 @@
             <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;">{{Screen}}</h2></div>
             <search v-show="searchCom && !download"></search>
             <div style="display:flex;margin:5px;"><div @click="typeChangeSquare" style="width:20px;" class="fa fa-th-large"></div><div @click="typeChangeList" color= "#dee0d9" class="fa fa-th-list"></div></div>
-            <song :square="square" :SQuery="SQuery" v-show="!download"></song>
+            <song :square="square" :SQuery="SQuery" v-show="home"></song>
+            <playlist v-show="playlist"></playlist>
             <download v-show="download"></download>
             <player ></player>    
         </div>
@@ -20,12 +21,13 @@ import navbar from "./navbar";
 import player from "./player"
 import download from "./download"
 import search from "./search"
+import playlist from "./playlist"
 import song from "./home"
 import { EventBus } from "../event-bus.js";
 import searchComp  from "./searchSongComponent";
 export default {
     name:'musicContainer',
-    components: {navbar,player,search,song,searchComp,download},
+    components: {navbar,player,search,song,searchComp,download,playlist},
     data(){
         return{
             searchCom:true,
@@ -34,7 +36,6 @@ export default {
             home:true,
             playlist:false,
             artist:false,
-            genres:false,
             albums:false,
             square:true,
             download:false,
@@ -72,7 +73,6 @@ export default {
             this.searchCom= true
             this.artist = false
             this.album = false
-            this.genres = false
             this.download = false
         });
         EventBus.$on("Playlist",()=>{
@@ -81,17 +81,7 @@ export default {
             this.playlist = true
             this.artist = false
             this.album = false
-            this.genres = false
             this.download = false
-        });
-        EventBus.$on("Artist",()=>{
-            this.Screen = "Artist"
-            this.home= false
-            this.playlist = false
-            this.artist = true
-            this.download = false
-            this.album = false
-            this.genres = false
         });
         EventBus.$on("Download",()=>{
             this.Screen = "Download"
@@ -99,7 +89,7 @@ export default {
             this.playlist = false
             this.artist = false
             this.album = false
-            this.genres = false
+            
             this.download = true
         });
     }

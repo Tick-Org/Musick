@@ -9,7 +9,7 @@ export default {
     methods:{
         pull(){
             console.log("pull")
-            
+            EventBus.$emit("Home")
             document.getElementById("search-p").style.top="0"
         }
     },
