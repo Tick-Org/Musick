@@ -23,7 +23,7 @@ export default {
     top:0;
     font-size: 3em;
     color: #f3f9fb;
-    
+    padding:5px;
     right: 5px;
 }
 

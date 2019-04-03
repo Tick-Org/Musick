@@ -26,17 +26,20 @@ export default {
 <style>
 #download{
     margin:10px;
+    
 }
 #down{
     width:80%;
     background: none;
     padding:10px;
+    color:#eee;
     border-radius: 40px;
     border:solid 1px;
 }
 button{
     
     background:#212121;
+    color:#eee;
     border:none;
     padding:5px;
     margin:5px;

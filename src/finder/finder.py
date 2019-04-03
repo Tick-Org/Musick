@@ -124,10 +124,21 @@ def getSongsFromPlaylist(playlistName):
         songTags = {}
         if i != "":
             tag = eyed3.load(i)
+            songTags["title"] = tag.tag.title
             songTags["artist"] = tag.tag.artist
             songTags["album"] = tag.tag.album
             songTags["path"] = i
             songs.append(songTags)
 
     return jsonify(songs)
+@app.route("/playlist/getPlaylist")
+@cross_origin()    
+def getPlaylists():
+    plays=[]
+    for playlist in os.listdir(os.getcwd()+"/playlist/"):
+        listPath = base64.b64decode(base64.b64decode(playlist.replace(".txt","")).decode('utf-8')).decode('utf-8')
+        print(listPath)            
+        plays.append(listPath)            
+
+    return jsonify(plays)
 app.run(host='0.0.0.0',port="7000")

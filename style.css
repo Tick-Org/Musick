@@ -2,6 +2,10 @@
     
     font-family: 'Viga', sans-serif;
 }
+
+.v--modal{
+  color: black !important;
+}
 html,body{
     overflow-x: hidden;
     overflow-y: hidden;

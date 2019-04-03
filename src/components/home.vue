@@ -1,6 +1,10 @@
 
 <template>
     <div>
+        <div style="display:flex;margin:5px;">
+            <div @click="typeChangeSquare" style="width:20px;margin-right:20px;" class="fa fa-th-large"></div>
+            <div @click="typeChangeList" color= "#dee0d9" class="fa fa-th-list"></div>
+        </div>
         <div v-show="square" id="songs">
         
          <div  v-for="song,index in songs" :key="song.id"> 
@@ -25,27 +29,31 @@
                 <div  id="LineSong" >
                     <div style="display:flex;"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
                         <div :id="'line'+song.id" style="width:50%;" >{{song.title}}</div><div  style="font-size:80%;width:30%;">{{song.artist}}</div>
-                        
+                        <div @click="playlist" class='fa fa-plus-circle'></div>
                     </div>  
                 </div>
             </template>
         </div>
         </div>
+    <modals-container id="dialog"/>
     </div>
+    
 </template>
 <script>
 import { EventBus } from "../event-bus.js";
 export default {
     name:'song',
-    props:{SQuery:{type:String,default:""},square:{type:Boolean,default:true}},
+    props:{SQuery:{type:String,default:""}},
     data(){
         
         var allSongs=[];
         var pictures=[]
         $.getJSON('http://127.0.0.1:5000/songlist', function(data) {
+            
                 data.forEach(element => {
                     try{    
                         const boa = window.btoa(element.path)
+                        
                         allSongs.push(element)
                         pictures.push("http://127.0.0.1:5000/art/"+boa)
                     }
@@ -54,10 +62,18 @@ export default {
                     }
                 });
         })
+        var playlistL = []
+        $.getJSON('http://127.0.0.1:5000/playlist/getPlaylist', function(data) {
+                data.forEach(element => {
+                    playlistL.push(element)
+                });
+        })
         
-        return{songs:allSongs,pictures:pictures,playing:false,index:-1}
+        
+        return{songs:allSongs,playlistK:playlistL,pictures:pictures,playing:false,index:-1,square:true}
     },
     created(){
+       
         var vm = this
         EventBus.$on('back',function(params) {
                 console.log(vm.index)
@@ -79,6 +95,38 @@ export default {
         })
     },
     methods:{
+        playlist(){
+        var vm = this
+        
+        this.$modal.show({
+            title: 'Make A Playlist',
+            template: `
+            <div style="width:inherit;height:inherit;display:flex;flex-direction:column;text-align:center">
+                <h1>Select a Playlist</h1>
+                <p>Select a Playlist to add the Song</p>
+                <div style="margin:30px;width:90%;overflow-y:scroll">
+
+                    <div   v-for="playlist in playlistsT">
+                        <div  style="display:flex"><div style="width:fit-content"><input @click="select" type="checkbox" :value="playlist"></div><div style="width:100px;text-align:left">{{playlist}}</div><br/></div>
+                    </div>
+                
+                </div>
+                <button type="button" id="create" disabled>Add to Playlist</button>   
+            </div>
+            `,
+            props:["playlistsT","select"],
+            
+            },{playlistsT:vm.playlistK,select:this.select},{width:"30%"})
+            
+        },
+        select(event){
+/*
+if ($("#myCheckBox").is(":checked")) {  
+            
+            }
+            */
+            console.log(event.target.checked)
+        },
         playmusic(index,path,title,artist,art){
             if(this.index != -1){
                 this.playing=false
@@ -92,6 +140,20 @@ export default {
             document.getElementById(index).style.zIndex = 0
             document.getElementById("line"+this.index).style.color = "#00faac"
             EventBus.$emit("play",[index ,title,artist,path,art])
+        },
+        typeChangeSquare(event){
+            console.log(event.target.style.color )
+            event.target.style.color = "#f3f9fb"
+            document.getElementsByClassName("fa-th-list").item(0).style.color =  "#dee0d9"
+            
+            this.square = true
+        },
+
+        typeChangeList(event){
+            event.target.style.color = "#f3f9fb "
+            
+            document.getElementsByClassName("fa-th-large").item(0).style.color =  "#dee0d9"
+            this.square = false
         }
     }
 }
@@ -108,6 +170,12 @@ export default {
 }
 #artistName{
     font-size: 70%;
+}
+#create{
+    border: none;
+    padding:10px;
+    background-color: #556fb5;
+    color:#eee;
 }
 #songs{
     display: flex;

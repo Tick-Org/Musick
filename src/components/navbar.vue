@@ -40,8 +40,6 @@ export default {
     font-size: 110%;
 }
 .fa{
-    
-    padding:5px;
     font-size:1.5em;
 }
 span{

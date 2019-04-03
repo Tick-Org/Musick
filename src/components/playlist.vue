@@ -1,6 +1,15 @@
 <template>
     <div id="playlists">
-        <div id="new" @click="modalS"><div class="fa fa-plus"></div></div>
+      <Div id="squares" v-show="!playlistView">
+        <div class="square" id="new" @click="modalS"><div class="fa fa-plus"></div></div>
+        <div v-for="playlist in allPlaylist">
+            <div class="square" id="new" @click="changeView(playlist)"><div>{{playlist}}</div></div>
+        </div>
+      </Div>        
+      <template  v-if="playlistView">
+          
+          <play-list-view :PlaylistName="playlist"></play-list-view>
+      </template>
     <v-dialog/>
     </div>
 
@@ -9,14 +18,39 @@
 <script>
 
 import { EventBus } from "../event-bus.js";
-
+import PlayListView from "./playlistView.vue"
 export default {
     
     name:"playlist",
+    components:{PlayListView},
     data:()=>({
-        modal:false
+        modal:false,
+        allPlaylist:[],
+        playlist:"",
+        playlistView:false
     }),
+    created(){
+        EventBus.$on("back",()=>{
+          this.playlistView = false
+        })
+        this.getPlayLists()
+    },
     methods:{
+        changeView(name){
+          this.playlist = name
+          this.playlistView = true
+        },
+        getPlayLists(){
+          var vm = this
+          $.getJSON("http://127.0.0.1:5000/playlist/getPlaylist",function(data){
+
+              vm.allPlaylist = []
+              data.forEach(element => {
+                
+                vm.allPlaylist.push((element))
+              });
+          })
+        },
         modalS(){
             this.$modal.show('dialog', {
               title: 'Make A Playlist',
@@ -36,7 +70,10 @@ export default {
                   handler: () => { 
                       
                         var playListName = window.btoa(document.getElementById("playlistName").value);
-
+                         $.getJSON('http://0.0.0.0:5000/playlist/create/'+window.btoa(playListName), function(data) {
+                            console.log(data)
+                        });
+                        this.getPlayLists()
                         this.$modal.hide("dialog")
                       }
                 },
@@ -65,7 +102,8 @@ export default {
     padding:none;
     background-color:rgba(0,0,0,0.8); 
 }
- .v--modal{
-     color: black !important;
- }
+#squares{
+  display: flex;
+  flex-wrap: wrap; 
+}
 </style>

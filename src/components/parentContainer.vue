@@ -6,10 +6,9 @@
             <searchComp v-model="SQuery"></searchComp>
             <div id="music-head"><h2 style="margin:5% 0 5% 5%  ;font-size: 3em;">{{Screen}}</h2></div>
             <search v-show="searchCom && !download"></search>
-            <div style="display:flex;margin:5px;"><div @click="typeChangeSquare" style="width:20px;" class="fa fa-th-large"></div><div @click="typeChangeList" color= "#dee0d9" class="fa fa-th-list"></div></div>
-            <song :square="square" :SQuery="SQuery" v-show="home"></song>
-            <playlist v-show="playlist"></playlist>
-            <download v-show="download"></download>
+            <template v-if="home"><song :SQuery="SQuery"></song></template>
+            <template v-if="playlist"><playlist></playlist></template>
+            <template v-if="download"><download></download></template>
             <player ></player>    
         </div>
         
@@ -39,22 +38,6 @@ export default {
             albums:false,
             square:true,
             download:false,
-        }
-    },
-    methods:{
-        typeChangeSquare(event){
-            console.log(event.target.style.color )
-            event.target.style.color = "#f3f9fb"
-            document.getElementsByClassName("fa-th-list").item(0).style.color =  "#dee0d9"
-            
-            this.square = true
-        },
-
-        typeChangeList(event){
-            event.target.style.color = "#f3f9fb "
-            
-            document.getElementsByClassName("fa-th-large").item(0).style.color =  "#dee0d9"
-            this.square = false
         }
     },
     created(){
