@@ -8,6 +8,8 @@
 git clone https://github.com/pythongiant/skrrt
 # install dependencies
 npm install
+# build 
+npm build
 # run the app
 python3 run.py
 ```
