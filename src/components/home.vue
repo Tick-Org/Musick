@@ -29,13 +29,13 @@
                 <div  id="LineSong" >
                     <div style="display:flex;"  @click="playmusic(song.id,song.path,song.title,song.artist,pictures[index])">
                         <div :id="'line'+song.id" style="width:50%;" >{{song.title}}</div><div  style="font-size:80%;width:30%;">{{song.artist}}</div>
-                        <div @click="playlist" class='fa fa-plus-circle'></div>
+                        <div @click="playlist(song.path)" class='fa fa-plus-circle'></div>
                     </div>  
                 </div>
             </template>
         </div>
         </div>
-    <modals-container id="dialog"/>
+    <modals-container name="lists" id="dialog"/>
     </div>
     
 </template>
@@ -70,7 +70,7 @@ export default {
         })
         
         
-        return{songs:allSongs,playlistK:playlistL,pictures:pictures,playing:false,index:-1,square:true}
+        return{songs:allSongs,playlistK:playlistL,pictures:pictures,playing:false,index:-1,square:true,status:{}}
     },
     created(){
        
@@ -95,37 +95,48 @@ export default {
         })
     },
     methods:{
-        playlist(){
+        playlist(title){
         var vm = this
-        
+        this.status["song"] = title
         this.$modal.show({
             title: 'Make A Playlist',
             template: `
             <div style="width:inherit;height:inherit;display:flex;flex-direction:column;text-align:center">
                 <h1>Select a Playlist</h1>
                 <p>Select a Playlist to add the Song</p>
-                <div style="margin:30px;width:90%;overflow-y:scroll">
+                <div style="margin:10px;width:90%;height:50%;overflow-y:scroll">
 
                     <div   v-for="playlist in playlistsT">
                         <div  style="display:flex"><div style="width:fit-content"><input @click="select" type="checkbox" :value="playlist"></div><div style="width:100px;text-align:left">{{playlist}}</div><br/></div>
                     </div>
                 
                 </div>
-                <button type="button" id="create" disabled>Add to Playlist</button>   
+                <button type="button" id="create" @click="add">Add to Playlist</button>   
             </div>
             `,
-            props:["playlistsT","select"],
+            props:["playlistsT","select","add"],
             
-            },{playlistsT:vm.playlistK,select:this.select},{width:"30%"})
+            },{playlistsT:vm.playlistK,select:this.select,add:this.add,},{width:"30%"})
             
         },
         select(event){
-/*
-if ($("#myCheckBox").is(":checked")) {  
             
+            this.status[event.target.value]=event.target.checked
+            console.log(this.status)
+        },
+        add(event){
+
+            this.$emit('close')
+            for(var key in this.status){
+                if(this.status[key]){
+                    var playlist = key
+                    if(key != "song"){
+                        $.getJSON('http://127.0.0.1:5000/playlist/addSong/'+window.btoa(playlist)+"/"+window.btoa(this.status["song"]), function(data) {
+                            console.log("done")
+                        })
+                    }
+                }
             }
-            */
-            console.log(event.target.checked)
         },
         playmusic(index,path,title,artist,art){
             if(this.index != -1){
@@ -137,8 +148,13 @@ if ($("#myCheckBox").is(":checked")) {
             }
             this.index = index
             this.playing=true
+            try {
             document.getElementById(index).style.zIndex = 0
             document.getElementById("line"+this.index).style.color = "#00faac"
+                
+            } catch (error) {
+                
+            }
             EventBus.$emit("play",[index ,title,artist,path,art])
         },
         typeChangeSquare(event){
@@ -163,9 +179,9 @@ if ($("#myCheckBox").is(":checked")) {
     font-size:90%;
     width: inherit;
     height:20%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: bold;
 }
 #artistName{
@@ -180,16 +196,13 @@ if ($("#myCheckBox").is(":checked")) {
 #songs{
     display: flex;
     flex-wrap: wrap;
-    
     margin:15px;
     padding-bottom: 10%;
 }
 #LineSong{
-    
     width:inherit;
     margin:10px;
     padding:15px;
-    
     cursor: pointer;
     transition:  all .2s ease-in-out;
     border-bottom:solid 0.1px;
@@ -208,7 +221,6 @@ if ($("#myCheckBox").is(":checked")) {
     justify-content: center;
     text-align: center;
     flex-direction: column;
-
     border-radius: 15px;
     height: 12em;
     opacity:0.8;

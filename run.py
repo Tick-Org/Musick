@@ -2,7 +2,7 @@ import os
 import threading
 
 def run_npm():
-	os.system("npm run dev")
+	os.system("npm run build")
 def run_flask():
 	os.system("export FLASK_APP=src/finder/finder.py;python3 -m flask run")
 	

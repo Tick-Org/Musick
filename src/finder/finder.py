@@ -52,6 +52,7 @@ def art(songName):
     except FileExistsError:
         pass
     os.system("ffmpeg -i \""+listPath+"\" art/"+songName+".jpg -n")
+    os.system("clear")
     try:
          open(os.getcwd()+"/art/"+songName+".jpg", 'r')
          return send_file(os.getcwd()+"/art/"+songName+".jpg", mimetype='image/jpg')
@@ -82,7 +83,7 @@ def song(songName):
     except FileNotFoundError:
             print("doing")
             os.system(notfound)
-    
+    os.system("clear")
     return  send_file(listPath, mimetype='audio/mp3')
 
 @app.route("/download/<songName>")
@@ -96,7 +97,7 @@ def download(songName):
 @app.route("/playlist/create/<playlistName>")
 @cross_origin()
 def playlist(playlistName):
-
+    
     try:
         os.mkdir(os.getcwd()+"/playlist/")
     except FileExistsError:
@@ -120,10 +121,15 @@ def getSongsFromPlaylist(playlistName):
     
     songs =[]
     playlist = open("playlist/"+playlistName+".txt","r").read().split("\n")
+    print(playlist)
+    idx = 0
     for i in playlist:
         songTags = {}
         if i != "":
+            print(i)
+            idx+=1
             tag = eyed3.load(i)
+            songTags["id"] = idx
             songTags["title"] = tag.tag.title
             songTags["artist"] = tag.tag.artist
             songTags["album"] = tag.tag.album
@@ -136,8 +142,10 @@ def getSongsFromPlaylist(playlistName):
 def getPlaylists():
     plays=[]
     for playlist in os.listdir(os.getcwd()+"/playlist/"):
-        listPath = base64.b64decode(base64.b64decode(playlist.replace(".txt","")).decode('utf-8')).decode('utf-8')
+        listPath =base64.b64decode(playlist.replace(".txt","")).decode('utf-8')
+
         print(listPath)            
+        
         plays.append(listPath)            
 
     return jsonify(plays)

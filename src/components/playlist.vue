@@ -23,14 +23,16 @@ export default {
     
     name:"playlist",
     components:{PlayListView},
-    data:()=>({
-        modal:false,
-        allPlaylist:[],
-        playlist:"",
-        playlistView:false
-    }),
+    data(){
+      return{
+            modal:false,
+            allPlaylist:[],
+            playlist:"",
+            playlistView:false
+        }
+    },
     created(){
-        EventBus.$on("back",()=>{
+        EventBus.$on("back1",()=>{
           this.playlistView = false
         })
         this.getPlayLists()
@@ -68,14 +70,13 @@ export default {
                   title: 'Create',
                   default:true,
                   handler: () => { 
-                      
-                        var playListName = window.btoa(document.getElementById("playlistName").value);
-                         $.getJSON('http://0.0.0.0:5000/playlist/create/'+window.btoa(playListName), function(data) {
-                            console.log(data)
-                        });
-                        this.getPlayLists()
-                        this.$modal.hide("dialog")
-                      }
+                    var playListName = window.btoa(document.getElementById("playlistName").value);
+                     $.getJSON('http://0.0.0.0:5000/playlist/create/'+playListName, function(data) {
+                        console.log(data)
+                    });
+                    this.getPlayLists()
+                    this.$modal.hide("dialog")
+                  }
                 },
                 
                 {
