@@ -1,3 +1,5 @@
+webview==0.1.5
 Flask==1.0.2
-eyeD3==0.8.10
+screeninfo==0.3.1
 Flask_Cors==3.0.7
+eyeD3==0.8.10
