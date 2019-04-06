@@ -45,4 +45,22 @@ export default {
 span{
     width:70%;
 }
+@media screen and (max-width: 600px) {
+  #navbar{
+      height:15%;
+      width:100%;
+      z-index:2;
+  }
+  #navbar div{
+      display: none;
+  }
+  #parent-r{
+      margin-left: 0;
+  }
+  #search-p{
+      z-index:100;
+      width:100%;
+  }
+}
+
 </style>
