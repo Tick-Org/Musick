@@ -61,6 +61,29 @@ span{
       z-index:100;
       width:100%;
   }
+  #song{
+      width:10em !important;
+      height:13em !important;
+  }
+  .slider{
+      width:20em !important;
+  }
+  #center{
+      text-align: center;
+  }
+  #alb{
+      height: 13% !important;
+      width: 13% !important;
+  }
+  #name{
+    width:20em !important;
+  }
+
+.ov{
+    width:8em !important;
+    height: 8em !important;
+
+}
 }
 
 </style>

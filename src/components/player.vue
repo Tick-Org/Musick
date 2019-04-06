@@ -1,15 +1,15 @@
 <template>
     <div id="player">
-        
-             <range-slider
-             @change="changePlayHead"
-    class="slider"
-    min="0"
-    max="100"
-    step="0.001"
-    v-model="sliderValue">
-  </range-slider>
-        
+        <div id="center">    
+        <range-slider
+        @change="changePlayHead"
+        class="slider"
+        min="0"
+        max="100"
+        step="0.001"
+        v-model="sliderValue">
+        </range-slider>
+        </div>
         <div id="content-play">
             <img id="alb" :src="art"/>
             <div id="name">
@@ -133,9 +133,8 @@ export default {
 }
 .slider{
     height:5%;
-    width:65em;
     margin:0;
-    
+    width:65em;
 }
 #alb{
     height:3%;
