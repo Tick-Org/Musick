@@ -5,7 +5,7 @@
 ## Build Setup
 
 ``` bash
-git clone https://github.com/pythongiant/skrrt
+git clone https://github.com/Tick-Org/Musick
 # install dependencies
 npm install
 # build 
