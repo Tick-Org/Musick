@@ -9,7 +9,7 @@ git clone https://github.com/Tick-Org/Musick
 # install dependencies
 npm install
 # build 
-npm build
+npm run build
 # run the app
 python3 run.py
 ```
